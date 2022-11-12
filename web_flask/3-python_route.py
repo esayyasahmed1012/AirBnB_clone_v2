@@ -1,37 +1,35 @@
 #!/usr/bin/python3
-""" 3.dd third view func that redirects and has default val for variable """
-
+"""Simple Flask web application"""
 from flask import Flask
-
-
-app = Flask(__name__)
+app = Flask('web_flask')
 app.url_map.strict_slashes = False
 
 
 @app.route('/')
-def hello_world():
-    """ Returns some text. """
+def hello_route1():
+    """Return 'Hello HBNB!'"""
     return 'Hello HBNB!'
 
 
 @app.route('/hbnb')
-def hello():
-    """ Return other text. """
+def hello_route2():
+    """Return 'HBNB'"""
     return 'HBNB'
 
 
 @app.route('/c/<text>')
-def c_text(text):
-    """ replace text with variable. """
-    text = text.replace('_', ' ')
-    return 'C {}'.format(text)
+def hello_route3(text):
+    """Return 'C ' followed by text from html request"""
+    return 'C {}'.format(text.replace('_', ' '))
 
-@app.route('/python/')
+
 @app.route('/python/<text>')
-def python_text(text='is cool'):
-    """ replace more text with another variable. """
-    text = text.replace('_', ' ')
-    return 'Python {}'.format(text)
+@app.route('/python/', defaults={'text': 'is cool'})
+def hello_route4(text):
+    """Return 'Python ' followed by text from html request with
+    default text 'is cool'"""
+    return 'Python {}'.format(text.replace('_', ' '))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
